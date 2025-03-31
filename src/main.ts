@@ -1,6 +1,5 @@
 import * as THREE from "three";
-import { PointerLockControls } from "three/examples/jsm/controls/PointerLockControls";
-
+import { PointerLockControls } from "three/addons/controls/PointerLockControls.js";
 // === Основная сцена ===
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -108,6 +107,7 @@ const floors = [-4, -2, 0, 2, 4];
 // Логика движения лифта
 function animate() {
   requestAnimationFrame(animate);
+  const clock = new THREE.Clock();
 
   // Плавное перемещение лифта
   const speed = 0.05;
@@ -117,8 +117,10 @@ function animate() {
     lift.position.y -= speed;
   }
 
+  const deltaTime = clock.getDelta();
+
   // Синхронизация камеры с лифтом
-  controls.update(); // Обновляем управление камерой
+  controls.update(deltaTime); // Передаем разницу времени в update()
   renderer.render(scene, camera);
 }
 
