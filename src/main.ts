@@ -13,10 +13,10 @@ const controls = new PointerLockControls(camera, document.body);
 document.body.addEventListener("click", () => controls.lock());
 
 // === Освещение ===
-const ambientLight = new THREE.AmbientLight(0x404040, 0.5); // Мягкое освещение
+const ambientLight = new THREE.AmbientLight(0x404040, 0.3); // Мягкое освещение
 scene.add(ambientLight);
 
-const pointLight = new THREE.PointLight(0xffff00, 1, 5);
+const pointLight = new THREE.PointLight(0xffff00, 1.5, 5);
 pointLight.position.set(0, 1.5, 0);
 scene.add(pointLight);
 
@@ -26,15 +26,15 @@ scene.add(lift);
 
 // === Пол лифта ===
 const floorGeometry = new THREE.PlaneGeometry(2, 2);
-const floorMaterial = new THREE.MeshStandardMaterial({ color: 0x333333, side: THREE.DoubleSide });
+const floorMaterial = new THREE.MeshStandardMaterial({ color: 0x888888, side: THREE.DoubleSide });
 const floor = new THREE.Mesh(floorGeometry, floorMaterial);
-floor.rotation.x = -Math.PI / 2;  // Поворот, чтобы пол был горизонтальным
+floor.rotation.x = -Math.PI / 2; // Поворот, чтобы пол был горизонтальным
 floor.position.set(0, -1.5, 0);
 lift.add(floor);
 
 // === Стены лифта ===
 const wallGeometry = new THREE.PlaneGeometry(2, 3);
-const wallMaterial = new THREE.MeshStandardMaterial({ color: 0x444444, side: THREE.DoubleSide });
+const wallMaterial = new THREE.MeshStandardMaterial({ color: 0x777777, side: THREE.DoubleSide });
 
 // Передняя стена
 const frontWall = new THREE.Mesh(wallGeometry, wallMaterial);
@@ -44,52 +44,52 @@ lift.add(frontWall);
 // Задняя стена
 const backWall = new THREE.Mesh(wallGeometry, wallMaterial);
 backWall.position.set(0, 0, -1);
-backWall.rotation.y = Math.PI;  // Поворот для задней стены
+backWall.rotation.y = Math.PI; // Поворот для задней стены
 lift.add(backWall);
 
 // Левая стена
 const leftWall = new THREE.Mesh(wallGeometry, wallMaterial);
 leftWall.position.set(-1, 0, 0);
-leftWall.rotation.y = Math.PI / 2;  // Поворот для левой стены
+leftWall.rotation.y = Math.PI / 2; // Поворот для левой стены
 lift.add(leftWall);
 
 // Правая стена
 const rightWall = new THREE.Mesh(wallGeometry, wallMaterial);
 rightWall.position.set(1, 0, 0);
-rightWall.rotation.y = -Math.PI / 2;  // Поворот для правой стены
+rightWall.rotation.y = -Math.PI / 2; // Поворот для правой стены
 lift.add(rightWall);
 
 // === Двери лифта ===
-const doorGeometry = new THREE.BoxGeometry(0.2, 2, 1);  // Сделаем двери с реальной толщиной
+const doorGeometry = new THREE.BoxGeometry(0.2, 2, 1); // Сделаем двери с реальной толщиной
 const doorMaterial = new THREE.MeshStandardMaterial({ color: 0x555555, side: THREE.DoubleSide });
 
 // Первая дверь
 const door1 = new THREE.Mesh(doorGeometry, doorMaterial);
-door1.position.set(-1, 0, 1);  // Позиция первой двери
+door1.position.set(-1, 0, 1); // Позиция первой двери
 lift.add(door1);
 
 // Вторая дверь
 const door2 = new THREE.Mesh(doorGeometry, doorMaterial);
-door2.position.set(1, 0, 1);  // Позиция второй двери
+door2.position.set(1, 0, 1); // Позиция второй двери
 lift.add(door2);
 
 // === Псевдо зеркало (серый прямоугольник) ===
-const mirrorGeometry = new THREE.PlaneGeometry(0.6, 0.8);  // Размер зеркала
+const mirrorGeometry = new THREE.PlaneGeometry(0.6, 0.8); // Размер зеркала
 const mirrorMaterial = new THREE.MeshStandardMaterial({
-  color: 0x999999,  // Серый цвет для псевдо зеркала
+  color: 0x999999, // Серый цвет для псевдо зеркала
   side: THREE.DoubleSide,
-  roughness: 0.5,  // Немного шероховатости
-  metalness: 0.1,  // Малая металличность для имитации
-  opacity: 1,  // Прозрачность
-  transparent: true
+  roughness: 0.5, // Немного шероховатости
+  metalness: 0.1, // Малая металличность для имитации
+  opacity: 1, // Прозрачность
+  transparent: true,
 });
 
 const pseudoMirrorLeft = new THREE.Mesh(mirrorGeometry, mirrorMaterial);
-pseudoMirrorLeft.position.set(-0.8, 0.5, 1.1);  // Позиция псевдо зеркала на левой стене
+pseudoMirrorLeft.position.set(-0.8, 0.5, 1.1); // Позиция псевдо зеркала на левой стене
 lift.add(pseudoMirrorLeft);
 
 const pseudoMirrorRight = new THREE.Mesh(mirrorGeometry, mirrorMaterial);
-pseudoMirrorRight.position.set(0.8, 0.5, 1.1);  // Позиция псевдо зеркала на правой стене
+pseudoMirrorRight.position.set(0.8, 0.5, 1.1); // Позиция псевдо зеркала на правой стене
 lift.add(pseudoMirrorRight);
 
 // === Лампочка ===
@@ -118,7 +118,7 @@ function animate() {
   }
 
   // Синхронизация камеры с лифтом
-  controls.update();  // Обновляем управление камерой
+  controls.update(); // Обновляем управление камерой
   renderer.render(scene, camera);
 }
 
@@ -127,4 +127,13 @@ animate();
 // === Управление ===
 window.addEventListener("keydown", (event) => {
   if (event.code === "Space") {
-    pointLight.intensity = pointLight.intensity > 0 ? 0 : 1.5;  // Переключение
+    pointLight.intensity = pointLight.intensity > 0 ? 0 : 1.5; // Переключение света
+  }
+
+  if (event.code.startsWith("Digit")) {
+    const floorIndex = parseInt(event.code.replace("Digit", ""), 10) - 1;
+    if (floors[floorIndex] !== undefined) {
+      targetFloor = floors[floorIndex]; // Перемещение по этажам
+    }
+  }
+});
